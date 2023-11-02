@@ -10,7 +10,7 @@ class Group(db.Model):
     __tablename__ = 'groups'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
-    nodes = relationship('Nodes', backref='group')
+    nodes = relationship('Nodes', backref='group', lazy=True)
     temp_data = relationship('TempData', backref='group')
 
     def __str__(self):
@@ -25,6 +25,7 @@ class Node(db.Model):
     active = Column(Boolean, default=True)
     sleeptime = Column(Integer, default=0)  
     interval_time = Column(Integer, default=0)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
     temp_data = relationship('TempData', backref='node')
 
 

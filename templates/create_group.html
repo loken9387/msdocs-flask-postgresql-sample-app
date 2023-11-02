@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Restaurant Create{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style>
+      body {
+          min-height: 75rem;
+          padding-top: 4.5rem;
+      }
+  </style>
+{% endblock %}
+{% block content %}
+    <h1>Add New Restaurant</h1>
+
+    <form method="POST" action="{{ url_for('add_group') }}">
+        <div class="mb-3">
+          <label for="group_id" class="form-label">ID</label>
+          <input type="text" class="form-control" id="group_id" name="group_id">
+        </div>
+        <div class="mb-3">
+          <label for="group_name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="group_name" name="group_name">
+        </div>
+        <h3>Unassigned Nodes</h3>
+        <div class="mb-3">
+          {% for node in unassigned_nodes %}
+            <div class="form-check">
+              <input type="text" class="form-control" id="description" name="description">
+              <label for="description" class="form-label">
+                {{ node.name }}
+              </label>
+            </div>
+          {% endofr %}  
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="cancel" class="btn btn-primary">Cancel</button>
+    </form>
+{% endblock %}
+    
