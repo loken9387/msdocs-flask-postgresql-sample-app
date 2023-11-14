@@ -37,61 +37,41 @@ from models import Restaurant, Review
 @app.route('/', methods=['GET'])
 def index():
     print('Request for index page received')
-    groups = Group.query.all()
-    nodes = Node.query.all()
-    return render_template('index.html', groups=groups, nodes=nodes)
+    restaurants = Restaurant.query.all()
+    return render_template('index.html', restaurants=restaurants)
 
-# This method will be used to display details and change details of the node
-@app.route('/node/<int:id>', methods=['GET'])
-def node_details(id):
-    node = Node.query.get_or_404(id)
-    temp_data = TempData.query.filter_by(node_id=id).all()
-    return render_template('node_details.html', node=node, temp_data=temp_data)
+@app.route('/<int:id>', methods=['GET'])
+def details(id):
+    restaurant = Restaurant.query.where(Restaurant.id == id).first()
+    reviews = Review.query.where(Review.restaurant == id)
+    return render_template('details.html', restaurant=restaurant, reviews=reviews)
 
-    # restaurant = Restaurant.query.where(Restaurant.id == id).first()
-    # reviews = Review.query.where(Review.restaurant == id)
-    # return render_template('details.html', restaurant=restaurant, reviews=reviews)
-
-# This method will be used to display details of groups and delete groups 
-@app.route('/group/<int:id>', methods=['GET'])
-def group_details(id):
-    group = Group.query.get_or_404(id)
-    return render_template('group_details.html', group=group)
-
-# This method will be used to create new groups
 @app.route('/create', methods=['GET'])
-def create_group():
-    print('Request for add group page received')
-    return render_template('create_group.html')
+def create_restaurant():
+    print('Request for add restaurant page received')
+    return render_template('create_restaurant.html')
 
 @app.route('/add', methods=['POST'])
 @csrf.exempt
-def add_group():
+def add_restaurant():
     try:
-        group_id = request.values.get('group_id')
-        name = request.values.get('group_name')
-        selected_nodes = request.values.getlist('nodes')
+        name = request.values.get('restaurant_name')
+        street_address = request.values.get('street_address')
+        description = request.values.get('description')
     except (KeyError):
-        # Redisplay the group creation form.
-        return render_template('create_group.html', {
-            'error_message': "You must include a group ID and name",
+        # Redisplay the question voting form.
+        return render_template('add_restaurant.html', {
+            'error_message': "You must include a restaurant name, address, and description",
         })
     else:
-        group = Group()
-        group.id = group_id
-        group.name = name
-        db.session.add(group)
-        db.session.flush()  # Flush to get the group ID if it's auto-generated
-
-        # Assign selected nodes to the group
-        nodes_to_assign = Node.query.filter(Node.id.in_(selected_nodes)).all()
-        for node in nodes_to_assign:
-            node.group_id = group.id
-
+        restaurant = Restaurant()
+        restaurant.name = name
+        restaurant.street_address = street_address
+        restaurant.description = description
+        db.session.add(restaurant)
         db.session.commit()
 
-        # Redirect to a details page or another appropriate page
-        return redirect(url_for('group_details', id=group.id))
+        return redirect(url_for('details', id=restaurant.id))
 
 @app.route('/review/<int:id>', methods=['POST'])
 @csrf.exempt
