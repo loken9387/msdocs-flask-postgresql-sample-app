@@ -9,8 +9,8 @@ class Group(db.Model):
     __tablename__ = 'groups'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
-    nodes = relationship('Nodes', backref='group')
-    temp_data = relationship('TempData', backref='group', lazy=True)
+    nodes = relationship('Node', backref='group')
+    temp_data = relationship('TempData', backref='group', lazy='dynamic')
 
     def __str__(self):
         return self.name
