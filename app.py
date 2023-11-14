@@ -11,8 +11,6 @@ from flask_wtf.csrf import CSRFProtect
 app = Flask(__name__, static_folder='static')
 csrf = CSRFProtect(app)
 
-logging.basicConfig(level=logging.INFO)
-
 # WEBSITE_HOSTNAME exists only in production environment
 if 'WEBSITE_HOSTNAME' not in os.environ:
     # local development, where we'll use environment variables
@@ -39,7 +37,6 @@ from models import Restaurant, Review, Node, Group, TempData
 
 @app.route('/', methods=['GET'])
 def index():
-    app.logger.info('Request for index page received')
     print('Request for index page received')
     # groups = Group.query.all()
     nodes = Node.query.all()
@@ -47,7 +44,6 @@ def index():
 
 @app.route('/node/<int:id>', methods=['GET'])
 def node_details(id):
-    app.logger.info('Request for node_details page received')
     node = Node.query.get_or_404(id)
     temp_data = TempData.query.filter_by(node_id=id).all()
     return render_template('node_details.html', node=node, temp_data=temp_data)
@@ -59,13 +55,11 @@ def create_restaurant():
 
 @app.route('/create_mock_node', methods=['GET'])
 def create_mock_node():
-    app.logger.info('Request for create node page received')
     print('Request for add node page received')
     return render_template('create_mock_node.html')
 
 @app.route('/delete_node/<int:id>', methods=['POST'])
 def delete_node(id):
-    app.logger.info('Request for delete node page received')
     node = Node.query.get_or_404(id)
     db.session.delete(node)
     db.session.commit()
@@ -96,7 +90,6 @@ def add_restaurant():
 @app.route('/add_mock_node', methods=['POST'])
 @csrf.exempt
 def add_mock_node():
-    app.logger.info('Request for add mock node page received')
     try:
         id = request.values.get('id')
         name = request.values.get('name')
