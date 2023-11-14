@@ -83,7 +83,8 @@ def add_restaurant():
 @csrf.exempt
 def add_mock_node():
     try:
-        name = request.values.get('node_name')
+        id = request.values.get('id')
+        name = request.values.get('name')
         group_id = request.values.get('group_id')  # Assuming the form has a field for group_id
         location = request.values.get('location')
         active = request.values.get('active', type=bool)
@@ -93,6 +94,7 @@ def add_mock_node():
         return render_template('create_node.html', error_message=f"Missing field: {e}")
 
     node = Node(
+        id=id,
         name=name,
         group_id=group_id,
         location=location

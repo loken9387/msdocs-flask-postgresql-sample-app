@@ -14,19 +14,24 @@
 
     <form method="POST" action="{{ url_for('add_mock_node') }}">
         <div class="mb-3">
-          <label for="node_name" class="form-label">Node Name</label>
-          <input type="text" class="form-control" id="name" name="node_name">
+          <label for="id" class="form-label">ID Number</label>
+          <input type="text" class="form-control" id="id" name="id">
         </div>
         <div class="mb-3">
-          <label for="group_id_number" class="form-label">Group ID Number</label>
-          <input type="text" class="form-control" id="id_number" name="group_id_number">
+          <label for="name" class="form-label">Node Name</label>
+          <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="mb-3">
+          <label for="group_id" class="form-label">Group ID Number</label>
+          <input type="text" class="form-control" id="group_id" name="group_id">
         </div>
         <div class="mb-3">
             <label for="location" class="form-label">Location</label>
             <input type="text" class="form-control" id="location" name="location">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="cancel" class="btn btn-primary">Cancel</button>
+        <a href="{{ url_for('index') }}" class="btn btn-primary">Cancel</a>
+
     </form>
 {% endblock %}
     
