@@ -75,7 +75,7 @@
 
       <h2>Nodes</h2>
 
-      {% if nodes %}
+      {% if True %}
           <table class="table">
               <thead>
                   <tr>
@@ -105,4 +105,10 @@
       {% else %}
           <p>No nodes exist.</p>
       {% endif %}
+
+      <div class="d-flex justify-content-end">
+        <a href="{{ url_for('create_mock_node') }}" class="btn btn-success px-4 gap-3">Add new mock node</a>
+      </div>
+
+      
 {% endblock %}

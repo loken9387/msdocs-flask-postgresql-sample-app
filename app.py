@@ -52,6 +52,11 @@ def create_restaurant():
     print('Request for add restaurant page received')
     return render_template('create_restaurant.html')
 
+@app.route('/create_mock_node', methods=['GET'])
+def create_mock_node():
+    print('Request for add node page received')
+    return render_template('create_mock_node.html')
+
 @app.route('/add', methods=['POST'])
 @csrf.exempt
 def add_restaurant():
@@ -73,6 +78,29 @@ def add_restaurant():
         db.session.commit()
 
         return redirect(url_for('details', id=restaurant.id))
+    
+@app.route('/add_mock_node', methods=['POST'])
+@csrf.exempt
+def add_mock_node():
+    try:
+        name = request.values.get('node_name')
+        group_id = request.values.get('group_id')  # Assuming the form has a field for group_id
+        location = request.values.get('location')
+        active = request.values.get('active', type=bool)
+        sleeptime = request.values.get('sleeptime', type=int)
+        interval_time = request.values.get('interval_time', type=int)
+    except KeyError as e:
+        return render_template('create_node.html', error_message=f"Missing field: {e}")
+
+    node = Node(
+        name=name,
+        group_id=group_id,
+        location=location
+    )
+    db.session.add(node)
+    db.session.commit()
+
+    return redirect(url_for('index'))
 
 @app.route('/review/<int:id>', methods=['POST'])
 @csrf.exempt
