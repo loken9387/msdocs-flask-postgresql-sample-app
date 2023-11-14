@@ -57,6 +57,13 @@ def create_mock_node():
     print('Request for add node page received')
     return render_template('create_mock_node.html')
 
+@app.route('/delete_node/<int:id>', methods=['POST'])
+def delete_node(id):
+    node = Node.query.get_or_404(id)
+    db.session.delete(node)
+    db.session.commit()
+    return redirect(url_for('index'))
+
 @app.route('/add', methods=['POST'])
 @csrf.exempt
 def add_restaurant():

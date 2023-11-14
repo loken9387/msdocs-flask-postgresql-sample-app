@@ -97,7 +97,12 @@
                                   No group
                               {% endif %}
                           </td>
-                          <td class="text-end"><a href="{{ url_for('node_details', id=node.id) }}" class="btn btn-sm btn-secondary">Details</a></td>
+                          <td class="text-end">
+                            <a href="{{ url_for('node_details', id=node.id) }}" class="btn btn-sm btn-secondary">Details</a>
+                            <form action="{{ url_for('delete_node', id=node.id) }}" method="post" style="display: inline-block;">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                          </td>
                       </tr>
                   {% endfor %}
               </tbody>
