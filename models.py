@@ -19,7 +19,7 @@ class Node(db.Model):
     __tablename__ = 'nodes'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
-    group_id = Column(Integer, ForeignKey('group.id'))
+    group_id = Column(Integer, ForeignKey('groups.id'))
     location = Column(String(255), nullable=False)
     active = Column(Boolean, default=True)
     sleeptime = Column(Integer, default=0)  
