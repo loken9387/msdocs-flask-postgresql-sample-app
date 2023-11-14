@@ -37,14 +37,15 @@ from models import Restaurant, Review
 @app.route('/', methods=['GET'])
 def index():
     print('Request for index page received')
-    restaurants = Restaurant.query.all()
-    return render_template('index.html', restaurants=restaurants)
+    # groups = Group.query.all()
+    nodes = Node.query.all()
+    return render_template('index.html', nodes=nodes)
 
-@app.route('/<int:id>', methods=['GET'])
-def details(id):
-    restaurant = Restaurant.query.where(Restaurant.id == id).first()
-    reviews = Review.query.where(Review.restaurant == id)
-    return render_template('details.html', restaurant=restaurant, reviews=reviews)
+@app.route('/node/<int:id>', methods=['GET'])
+def node_details(id):
+    node = Node.query.get_or_404(id)
+    temp_data = TempData.query.filter_by(node_id=id).all()
+    return render_template('node_details.html', node=node, temp_data=temp_data)
 
 @app.route('/create', methods=['GET'])
 def create_restaurant():
