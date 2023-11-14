@@ -48,23 +48,9 @@ def node_details(id):
     temp_data = TempData.query.filter_by(node_id=id).all()
     return render_template('node_details.html', node=node, temp_data=temp_data)
 
-@app.route('/node/update/<int:id>', methods=['POST'])
-def update_node(id):
-    node = Node.query.get_or_404(id)
-    node.name = request.form['node_name']
-    node.sleeptime = request.form['node_sleeptime']
-    node.interval_time = request.form['node_interval_time']
-    
-    group_id = request.form['node_group']
-    if group_id:
-        node.group = Group.query.get(group_id)
-    else:
-        node.group = None
-    
-    db.session.commit()
-    # Redirect to the node details page or wherever appropriate
-    return redirect(url_for('node_details', id=node.id))
-    
+    # restaurant = Restaurant.query.where(Restaurant.id == id).first()
+    # reviews = Review.query.where(Review.restaurant == id)
+    # return render_template('details.html', restaurant=restaurant, reviews=reviews)
 
 # This method will be used to display details of groups and delete groups 
 @app.route('/group/<int:id>', methods=['GET'])

@@ -38,7 +38,7 @@
 
   <!-- JavaScript to Render the Chart -->
   <script>
-      var tempDataString = '{{ temp_data|tojson|safe }}';
+      var tempData = '{{ temp_data|tojson|safe }}';
       var tempData = JSON.parse(tempDataString);
   </script>
   <script>
@@ -66,50 +66,57 @@
           }
       });
   </script>
+
+  <!-- Rest of your code... -->
+
 {% endblock %}
-    <!-- Modal Trigger Button -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editNodeModal">
-      Edit Node Details
-    </button>
+
 
     <!-- Modal -->
-    <div class="modal fade" id="editNodeModal" tabindex="-1" aria-labelledby="editNodeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editNodeModalLabel">Edit Node Details</h5>
+            <h5 class="modal-title" id="addReviewModalLabel">Add Review</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form method="POST" action="{{ url_for('update_node', id=node.id) }}">
-            <div class="modal-body">
-              <!-- Node Name -->
-              <div class="mb-3">
-                <label for="node_name" class="form-label fw-bold">Node Name</label>
-                <input type="text" class="form-control" id="node_name" name="node_name" value="{{ node.name }}">
+              <form method="POST" action="{{ url_for('add_review', id=restaurant.id) }}">
+
+              <div class="modal-body">
+
+                <div class="mb-3">                        
+                    <label for="user_name" class="form-label fw-bold">Your name</label>
+                    <input type="text" class="form-control" id="user_name" name="user_name">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Rating</label>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" id="rating1" value="1">
+                        <label class="form-check-label" for="rating1">1</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
+                        <label class="form-check-label" for="rating2">2</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
+                        <label class="form-check-label" for="rating3">3</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
+                        <label class="form-check-label" for="rating3">4</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
+                        <label class="form-check-label" for="rating3">5</label>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="review_text" class="form-label fw-bold">Comments</label>
+                      <input type="text" class="form-control" id="review_text" name="review_text">
+                  </div>
               </div>
-              <!-- Sleep Time -->
-              <div class="mb-3">
-                <label for="node_sleeptime" class="form-label fw-bold">Sleep Time</label>
-                <input type="text" class="form-control" id="node_sleeptime" name="node_sleeptime" value="{{ node.sleeptime }}">
-              </div>
-              <!-- Interval Time -->
-              <div class="mb-3">
-                <label for="node_interval_time" class="form-label fw-bold">Interval Time</label>
-                <input type="text" class="form-control" id="node_interval_time" name="node_interval_time" value="{{ node.interval_time }}">
-              </div>
-              <!-- Node Group -->
-              <div class="mb-3">
-                <label for="node_group" class="form-label fw-bold">Group</label>
-                <select class="form-select" id="node_group" name="node_group">
-                  <option value="">No Group</option>
-                  {% for group in groups %}
-                    <option value="{{ group.id }}" {% if node.group and group.id == node.group.id %} selected {% endif %}>
-                      {{ group.name }}
-                    </option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save changes</button>
