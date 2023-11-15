@@ -5,17 +5,17 @@ import os
 conn_str = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
 conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
 
-DATABASE_URI = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}?sslmode=require'.format(
-    dbuser='postgresadmin@boeingwebapp1-oim5w63ey5ncw-postgres-server',
-    dbpass='Sinbad!010',
-    dbhost='boeingwebapp1-oim5w63ey5ncw-postgres-server.postgres.database.azure.com',
-    dbname='pythonapp'
+#DATABASE_URI = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}?sslmode=require'.format(
+#    dbuser='postgresadmin@boeingwebapp1-oim5w63ey5ncw-postgres-server',
+#    dbpass='Sinbad!010',
+#    dbhost='boeingwebapp1-oim5w63ey5ncw-postgres-server.postgres.database.azure.com',
+#    dbname='pythonapp'
+#)
+
+
+DATABASE_URI = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
+    dbuser=conn_str_params['user'],
+    dbpass=conn_str_params['password'],
+    dbhost=conn_str_params['host'],
+    dbname=conn_str_params['dbname']
 )
-
-
-# DATABASE_URI = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
-#     dbuser=conn_str_params['user'],
-#     dbpass=conn_str_params['password'],
-#     dbhost=conn_str_params['host'],
-#     dbname=conn_str_params['dbname']
-# )
