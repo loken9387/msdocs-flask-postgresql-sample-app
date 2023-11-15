@@ -1,7 +1,7 @@
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Boolean, Float
 from sqlalchemy.orm import validates
 from sqlalchemy.orm import relationship
-import datetime
+from datetime import datetime
 
 from app import db
 
@@ -19,7 +19,7 @@ class Node(db.Model):
     __tablename__ = 'nodes'
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
-    group_id = Column(Integer, ForeignKey('groups.id'))
+    group_id = Column(Integer, ForeignKey('groups.id'), nullable=True)
     location = Column(String(255), nullable=False)
     active = Column(Boolean, default=True)
     sleeptime = Column(Integer, default=0)  
@@ -31,7 +31,7 @@ class TempData(db.Model):
     __tablename__ = 'temp_data'
     id = Column(Integer, primary_key=True)
     temp = Column(Float, nullable=False)
-    time = Column(DateTime, default=datetime.datetime.utcnow)
+    time = Column(DateTime, default=datetime.utcnow)
     node_id = Column(Integer, ForeignKey('nodes.id'))
     group_id = Column(Integer, ForeignKey('groups.id'))
 

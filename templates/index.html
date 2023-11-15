@@ -41,24 +41,29 @@
   </style>
 {% endblock %}
 {% block content %}
-      <h1>Restaurants</h1>
+      <h1>Groups</h1>
 
       {% if True %}
           <table class="table">
               <thead>
                   <tr>
                       <th>Name</th>
-                      <th>Rating</th>
+                      <th>Node Count</th>
                       <th class="text-end">Details</th>
                   </tr>
               </thead>
               <tbody>
-                  {% for restaurant in restaurants %}
-                      <tr>
-                          <td>{{ restaurant.name }}</td>
-                          <td>{% include "star_rating.html" %}</td>
-                          <td class="text-end"><a href="{{ url_for('details', id=restaurant.id) }}" class="btn btn-sm btn-primary">Details</a></td>
-                      </tr>
+                  {% for group in groups %}
+                  <tr>
+                      <td>{{ group.name }}</td>
+                      <td>{{ group_node_counts[group.id] }}</td>
+                      <td class="text-end">
+                          <a href="{{ url_for('group_details', id=group.id) }}" class="btn btn-sm btn-primary">Details</a>
+                          <form action="{{ url_for('delete_group', id=group.id) }}" method="post" style="display: inline-block;">
+                              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                          </form>
+                      </td>
+                  </tr>
                   {% endfor %}
               </tbody>
           </table>
@@ -67,7 +72,7 @@
       {% endif %}
 
       <div class="d-flex justify-content-end">
-              <a href="{{ url_for('create_restaurant') }}" class="btn btn-success px-4 gap-3">Add new restaurant</a>
+              <a href="{{ url_for('create_group') }}" class="btn btn-success px-4 gap-3">Create Group</a>
       </div>
 
 
@@ -76,34 +81,36 @@
       <h2>Nodes</h2>
 
       {% if True %}
-          <table class="table">
+          <table id="myTable" class="table">
               <thead>
                   <tr>
-                      <th>ID</th>
+                      <th onclick="sortTable(0, 'number')">ID</th>
                       <th>Name</th>
+                      <th>Location</th>
                       <th>Associated Group</th>
                       <th class="text-end">Details</th>
                   </tr>
               </thead>
               <tbody>
                   {% for node in nodes %}
-                      <tr>
-                          <td>{{ node.id }}</td>
-                          <td>{{ node.name }}</td>
-                          <td>
-                              {% if node.group %}
-                                  {{ node.group.name }}
-                              {% else %}
-                                  No group
-                              {% endif %}
-                          </td>
-                          <td class="text-end">
-                            <a href="{{ url_for('node_details', id=node.id) }}" class="btn btn-sm btn-secondary">Details</a>
-                            <form action="{{ url_for('delete_node', id=node.id) }}" method="post" style="display: inline-block;">
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
-                          </td>
-                      </tr>
+                  <tr>
+                      <td>{{ node.id }}</td>
+                      <td>{{ node.name }}</td>
+                      <td>{{ node.location }}</td>
+                      <td>
+                          {% if node.group %}
+                          {{ node.group.name }}
+                          {% else %}
+                          No group
+                          {% endif %}
+                      </td>
+                      <td class="text-end">
+                          <a href="{{ url_for('node_details', id=node.id) }}" class="btn btn-sm btn-secondary">Details</a>
+                          <form action="{{ url_for('delete_node', id=node.id) }}" method="post" style="display: inline-block;">
+                              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                          </form>
+                      </td>
+                  </tr>
                   {% endfor %}
               </tbody>
           </table>
@@ -114,6 +121,6 @@
       <div class="d-flex justify-content-end">
         <a href="{{ url_for('create_mock_node') }}" class="btn btn-success px-4 gap-3">Add new mock node</a>
       </div>
-
       
+      <script src="{{ url_for('static', filename='sort-table.js') }}"></script>     
 {% endblock %}
